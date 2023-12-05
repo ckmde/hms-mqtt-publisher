@@ -1,0 +1,20 @@
+[Unit]
+Description=Hoymiles Wechselrichter MQTT Service
+Requires=network.target
+After=fhem.service
+
+[Service]
+Type=simple
+NotifyAccess=none
+User=root
+Group=root
+WorkingDirectory=/usr/bin/
+ExecStart=/usr/bin/hms-mqtt-publish 192.168.0.xxx 127.0.0.1
+ExecStop=kill $MAINPID
+TimeoutStartSec=5
+TimeoutStopSec=5
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
