@@ -5,7 +5,7 @@ Thanks to Dennis Luxen
 
 This tool fetches the current telemetry information from the HMS-XXXXW-2T series of micro-inverters and publishes the information into an MQTT broker.  
 Please note that it doesn’t implement a DTU, but pulls the information off the internal DTU of these inverters.  
-This fork will send MQTT messages only with all Information the inverter has.  
+This fork will send MQTT messages with all Information the inverter has.  
 It will send changed values only, every 60 Seconds.  
 Also it will send online/offline state.  
 Socket read/write timeouts are used.  
