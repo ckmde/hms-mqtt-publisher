@@ -19,7 +19,7 @@ The tool is distributed as source only — for now. You’ll have to download, c
 $ git clone https://github.com/ckmde/hms-mqtt-publisher.git
 $ cd hms-mqtt-publisher
 $ cargo b --release
-$ cp ../target/release/hms-mqtt-publish /usr/bin/
+$ cp target/release/hms-mqtt-publish /usr/bin/
 $ systemctl restart hoymiles.service
 ```
 ![image](https://github.com/lumapu/ahoy/assets/1067895/32c0b9b6-5aea-41e3-b9f8-161ce82fb99a)
