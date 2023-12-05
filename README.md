@@ -7,7 +7,8 @@ This tool fetches the current telemetry information from the HMS-XXXXW-2T series
 Please note that it doesn’t implement a DTU, but pulls the information off the internal DTU of these inverters.  
 This fork will send MQTT messages only with all Information the inverter has.  
 It will send changed values only, every 60 Seconds.  
-Also it will send online/offline state. Socket read/write timeouts are used.  
+Also it will send online/offline state.  
+Socket read/write timeouts are used.  
 Working with fhem mqtt2.  
 systemd unit for running in background is added.  
 
