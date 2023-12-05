@@ -1,6 +1,7 @@
-use crate::protos::hoymiles::RealData::{HMSStateResponse, RealDataResDTO};
-use crc16::{State, MODBUS};
-use log::{debug, info};
+use crate::protos::hoymiles::RealData::HMSStateResponse;
+use crate::RealData::RealDataResDTO;
+use crc16::*;
+use log::{debug,info};
 use protobuf::Message;
 use std::io::{Read, Write};
 use std::net::TcpStream;
@@ -18,7 +19,7 @@ pub enum NetworkState {
 
 pub struct Inverter<'a> {
     host: &'a str,
-    state: NetworkState,
+    pub state: NetworkState,
     sequence: u16,
 }
 
@@ -65,36 +66,32 @@ impl<'a> Inverter<'a> {
         let address = SocketAddr::new(IpAddr::V4(ip), INVERTER_PORT);
         let stream = TcpStream::connect_timeout(&address, Duration::from_millis(500));
         if let Err(e) = stream {
-            debug!("{e}");
+            debug!("s {e}");
             self.set_state(NetworkState::Offline);
             return None;
         }
-
         let mut stream = stream.unwrap();
+        stream.set_write_timeout(Some(Duration::new(45, 0))).expect("set_write_timeout call failed");
         if let Err(e) = stream.write(&message) {
-            debug!(r#"{e}"#);
+            info!(r#"{e}"#);
             self.set_state(NetworkState::Offline);
             return None;
         }
-
         let mut buf = [0u8; 1024];
+        stream.set_read_timeout(Some(Duration::new(45, 0))).expect("set_read_timeout call failed");
         let read = stream.read(&mut buf);
-
         if let Err(e) = read {
-            debug!("{e}");
+            info!("r {e}");
             self.set_state(NetworkState::Offline);
             return None;
         }
-        let read_length = read.unwrap();
-        let parsed = HMSStateResponse::parse_from_bytes(&buf[10..read_length]);
-
+        let parsed = HMSStateResponse::parse_from_bytes(&buf[10..read.unwrap()]);
         if let Err(e) = parsed {
-            debug!("{e}");
+            info!("p {e}");
             self.set_state(NetworkState::Offline);
             return None;
         }
         debug_assert!(parsed.is_ok());
-
         let response = parsed.unwrap();
         self.set_state(NetworkState::Online);
         Some(response)
