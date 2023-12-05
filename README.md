@@ -1,12 +1,14 @@
 # hms-mqtt-publisher
 
-Fork of https://github.com/DennisOSRM/hms-mqtt-publisher.git
+Fork of https://github.com/DennisOSRM/hms-mqtt-publisher.git  
 Thanks to Dennis Luxen
 
 This tool fetches the current telemetry information from the HMS-XXXXW-2T series of micro-inverters and publishes the information into an MQTT broker. Please note that it doesn’t implement a DTU, but pulls the information off the internal DTU of these inverters. 
-This fork will send MQTT messages only with all Information the inverter has. It will send changed values only every 60 Seconds. Also it will send online/offline state. Socket read/write timeouts are used.
-Working with fhem mqtt2 
-systemd unit for running in background is added.
+This fork will send MQTT messages only with all Information the inverter has.  
+It will send changed values only every 60 Seconds.  
+Also it will send online/offline state. Socket read/write timeouts are used.  
+Working with fhem mqtt2.  
+systemd unit for running in background is added.  
 
 ## How to run
 The tool is distributed as source only — for now. You’ll have to download, compile and run it yourself. Please note that configuration of hosts, and passwords is done via `config.toml` from the current directory.
